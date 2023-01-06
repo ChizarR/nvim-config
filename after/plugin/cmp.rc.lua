@@ -13,6 +13,22 @@ cmp.setup({
   mapping = cmp.mapping.preset.insert({
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm({
@@ -20,9 +36,14 @@ cmp.setup({
       select = true
     }),
   }),
+  window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered()
+  },
   formatting = {
     -- format = lspkind.cmp_format({ with_text = false, maxwidth = 50 })
-    fields = { "kind", "abbr", "menu" },
+    fields = { "abbr", "kind" },
+    max_width = 0,
     format = function(entry, vim_item)
       vim_item.menu = ({
         nvim_lsp = "[LSP]",
@@ -32,6 +53,12 @@ cmp.setup({
       })[entry.source.name]
       return vim_item
     end,
+    duplicates = {
+      buffer = 1,
+      path = 1,
+      nvim_lsp = 0,
+      luasnip = 1,
+    },
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
@@ -43,15 +70,9 @@ cmp.setup({
     behavior = cmp.ConfirmBehavior.Replace,
       select = true
   },
-  view = {
-    entries = 'nativ'
-  },
   experimental = {
     ghost_text = true,
-  }
+    nativ_menu = false,
+  },
 })
 
-vim.cmd [[
-  inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-]]

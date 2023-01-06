@@ -1,4 +1,7 @@
-local keymap = vim.keymap
+local tele_builtin = require "telescope.builtin"
+local tree =  require "nvim-tree"
+
+local keymap = require "vim.keymap"
 local opts = { noremap = true, silent = true }
 
 -- Set leader key
@@ -20,8 +23,21 @@ keymap.set('n', '<C-j>', '<C-w>j', opts)
 keymap.set('n', '<C-k>', '<C-w>k', opts)
 keymap.set('n', '<C-l>', '<C-w>l', opts)
 
+-- Colorcolumn
+keymap.set('n', '<leader>cu', ':set colorcolumn=80<Return>', opts)
+keymap.set('n', '<leader>cd', ':set colorcolumn=0<Return>', opts)
+
 -- File manager
-keymap.set('n', '<leader>e', ':Lex 18<cr>', opts)
+-- keymap.set('n', '<leader>e', ':Lex 25<cr>', opts)
+
+-- Telescope
+keymap.set('n', '<leader>ff', tele_builtin.find_files, opts)
+keymap.set('n', '<leader>fg', tele_builtin.live_grep, {})
+keymap.set('n', '<leader>fb', tele_builtin.buffers, {})
+keymap.set('n', '<leader>fh', tele_builtin.help_tags, {})
+
+-- Nvim-Tree
+keymap.set('n', '<leader>e', ':NvimTreeFindFileToggle<cr>')
 
 -- Resize windows
 keymap.set('n', '<C-Up>', ':resize +2<CR>', opts)
@@ -52,6 +68,4 @@ keymap.set('x', '<A-k>', ":move '<-2<CR>gv-gv", opts)
 
 -- Insert mode --
 -- Exit insert mode with 'jk'
-keymap.set('i', 'jk', '<ESC>', opts)
-
-
+-- keymap.set('i', 'jk', '<ESC>', opts)

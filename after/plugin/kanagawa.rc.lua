@@ -27,4 +27,4 @@ kanagawa.setup({
   theme = 'default'
 })
 
--- vim.cmd('colorscheme kanagawa')
+vim.cmd('colorscheme kanagawa')

@@ -30,3 +30,20 @@ nvim_lsp.rust_analyzer.setup {
   filetypes = { "rust" }
 }
 
+nvim_lsp.gopls.setup {
+  on_attach = on_attach,
+  filetypes = { "go" },
+  cmd = {"gopls", "serve"}
+}
+
+nvim_lsp.yamlls.setup {
+  on_attach = on_attach,
+}
+
+nvim_lsp.ccls.setup {
+  cmd = { 'ccls' },
+  filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+  -- ccls does not support sending a null root directory
+  single_file_support = false,
+  on_attach=on_attach,
+}

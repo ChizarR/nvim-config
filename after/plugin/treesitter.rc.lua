@@ -1,4 +1,7 @@
 local status, treesitter = pcall(require, 'nvim-treesitter.configs')
+if (not status) then
+  return
+end
 
 treesitter.setup({
   ensure_installed = "all",
@@ -10,5 +13,5 @@ treesitter.setup({
     additional_vim_regex_highlighting = true,
 
   },
-  indent = { enable = true, disable = { "yaml" } },
+  indent = { enable = true, disable = { "yaml", "go", "python", "typescript", "javascript" } },
 })
